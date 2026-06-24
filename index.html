@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><script src="/_sdk/telemetry_sdk.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>جهاز الفرز</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;600;700;800&amp;display=swap" rel="stylesheet">
+  <style>
+        body { font-family: 'Noto Sans Arabic', sans-serif; }
+        .shake { animation: shake 0.4s ease; }
+        @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-8px)} 75%{transform:translateX(8px)} }
+        .pop { animation: pop 0.3s ease; }
+        @keyframes pop { 0%{transform:scale(0.8);opacity:0} 100%{transform:scale(1);opacity:1} }
+    </style>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js" type="text/javascript"></script>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="/_sdk/resizing_sdk.js" type="text/javascript"></script>
+ </head>
+ <body data-template-id="__page-root" class="min-h-screen flex items-center justify-center p-4" style="background: linear-gradient(135deg, rgb(26, 26, 46), rgb(22, 33, 62), rgb(15, 52, 96));"><!-- Start Screen -->
+  <div id="start-screen" class="text-center max-w-lg w-full pop">
+   <div class="mb-6 text-6xl">
+    🏭
+   </div>
+   <h1 data-template-id="main-title" class="canva-text font-extrabold mb-3" style="color: rgb(255, 255, 255); font-weight: 800; font-style: normal; font-size: 32px;">جهاز الفرز: مقبول أم مردود؟</h1>
+   <p data-template-id="main-subtitle" class="canva-text mb-8 opacity-80" style="color: rgb(226, 232, 240); font-weight: 400; font-style: normal; font-size: 16px;">افرز التصرفات والعبادات.. هل هي موافقة للسنة أم لا؟</p><button data-template-id="start-btn" class="canva-button px-8 py-3 rounded-xl font-bold text-lg shadow-lg hover:scale-105 transition-transform" onclick="startGame()" style="background: rgb(16, 185, 129); color: rgb(255, 255, 255); font-weight: 700; font-style: normal; font-size: 18px;">ابدأ اللعبة 🚀</button>
+  </div><!-- Game Screen -->
+  <div id="game-screen" class="hidden max-w-lg w-full text-center">
+   <p id="counter" class="text-sm opacity-60 mb-4 font-semibold"></p>
+   <div data-template-id="card-container" class="canva-card rounded-2xl p-8 shadow-2xl mb-8 min-h-[180px] flex items-center justify-center" style="background: rgb(255, 255, 255);">
+    <p id="card-text" class="text-xl font-bold leading-relaxed"></p>
+   </div>
+   <div id="buttons-row" class="flex gap-4 justify-center"><button data-template-id="accept-btn" class="canva-button flex-1 py-4 rounded-xl font-bold text-lg shadow-md hover:scale-105 transition-transform" onclick="answer(true)" style="background: rgb(16, 185, 129); color: rgb(255, 255, 255); font-weight: 700; font-style: normal; font-size: 18px;">مقبول ✅</button> <button data-template-id="reject-btn" class="canva-button flex-1 py-4 rounded-xl font-bold text-lg shadow-md hover:scale-105 transition-transform" onclick="answer(false)" style="background: rgb(239, 68, 68); color: rgb(255, 255, 255); font-weight: 700; font-style: normal; font-size: 18px;">مردود ❌</button>
+   </div>
+   <div id="feedback" class="hidden mt-6 rounded-xl p-5 pop">
+    <p id="feedback-icon" class="text-4xl mb-2"></p>
+    <p id="feedback-text" class="font-semibold text-base"></p><button data-template-id="next-btn" class="canva-button mt-4 px-6 py-2 rounded-lg font-bold" onclick="nextCard()" style="background: rgb(59, 130, 246); color: rgb(255, 255, 255); font-weight: 600; font-style: normal; font-size: 18px;">التالي ←</button>
+   </div>
+  </div><!-- Result Screen -->
+  <div id="result-screen" class="hidden max-w-lg w-full text-center pop">
+   <div class="text-6xl mb-4">
+    🎉
+   </div>
+   <h2 data-template-id="result-title" class="canva-text font-extrabold mb-4" style="color: rgb(255, 255, 255); font-weight: 800; font-style: normal; font-size: 28px;">النتيجة النهائية</h2>
+   <p id="result-score" class="text-5xl font-extrabold mb-2"></p>
+   <p data-template-id="result-subtitle" class="canva-text opacity-70 mb-8" style="color: rgb(203, 213, 225); font-weight: 400; font-style: normal; font-size: 18px;">أحسنت! راجع إجاباتك وتعلّم من أخطائك</p><button data-template-id="restart-btn" class="canva-button px-8 py-3 rounded-xl font-bold text-lg shadow-lg hover:scale-105 transition-transform" onclick="restartGame()" style="background: rgb(139, 92, 246); color: rgb(255, 255, 255); font-weight: 700; font-style: normal; font-size: 18px;">أعد المحاولة 🔄</button>
+  </div>
+  <script src="/_sdk/editing_sdk.js"></script>
+  <script>
+        const questions = [
+            { text: "صلاة الظهر 5 ركعات لزيادة الأجر", correct: false, reason: "محدث ومخالف للسنة، الظهر 4 ركعات فقط" },
+            { text: "الوضوء ببدء غسل الرجلين قبل اليدين عمداً", correct: false, reason: "مخالف لترتيب الوضوء المشروع" },
+            { text: "التزام صلاة الوتر كما صلاها الرسول ﷺ", correct: true, reason: "اتباع السنة في صلاة الوتر" },
+            { text: "تخصيص ليلة معينة باحتفال أو عبادة لم ترد في الشرع", correct: false, reason: "بدعة إحداثية لم يرد فيها دليل" },
+            { text: "تأخير صلاة الفجر إلى بعد شروق الشمس عمداً بسبب السهر", correct: false, reason: "تفريط في أداء الصلاة في وقتها" },
+            { text: "التصدق بمبلغ من المال سراً ابتغاء مرضاة الله تعالى", correct: true, reason: "عمل صالح موافق للشرع" },
+            { text: "زيادة شوط ثامن في الطواف حول الكعبة احتياطاً للشك", correct: false, reason: "الطواف 7 أشواط، والزيادة عمداً مخالفة" }
+        ];
+
+        let current = 0, score = 0, shuffled = [];
+
+        function shuffle(arr) {
+            const a = [...arr];
+            for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+            return a;
+        }
+
+        function startGame() {
+            shuffled = shuffle(questions);
+            current = 0; score = 0;
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('game-screen').classList.remove('hidden');
+            showCard();
+        }
+
+        function showCard() {
+            document.getElementById('card-text').textContent = shuffled[current].text;
+            document.getElementById('counter').textContent = `${current + 1} / ${shuffled.length}`;
+            document.getElementById('feedback').classList.add('hidden');
+            document.getElementById('buttons-row').classList.remove('hidden');
+        }
+
+        function answer(accepted) {
+            const q = shuffled[current];
+            const isCorrect = accepted === q.correct;
+            if (isCorrect) score++;
+
+            document.getElementById('buttons-row').classList.add('hidden');
+            const fb = document.getElementById('feedback');
+            fb.classList.remove('hidden');
+            fb.className = 'mt-6 rounded-xl p-5 pop ' + (isCorrect ? 'bg-emerald-100' : 'bg-red-100');
+            document.getElementById('feedback-icon').textContent = isCorrect ? '✅' : '❌';
+            document.getElementById('feedback-text').textContent = (isCorrect ? 'إجابة صحيحة! ' : 'إجابة خاطئة! ') + q.reason;
+
+            if (!isCorrect) {
+                document.querySelector('[data-template-id="card-container"]').classList.add('shake');
+                setTimeout(() => document.querySelector('[data-template-id="card-container"]').classList.remove('shake'), 400);
+            }
+        }
+
+        function nextCard() {
+            current++;
+            if (current >= shuffled.length) {
+                document.getElementById('game-screen').classList.add('hidden');
+                document.getElementById('result-screen').classList.remove('hidden');
+                document.getElementById('result-score').textContent = `${score} / ${shuffled.length}`;
+            } else {
+                showCard();
+            }
+        }
+
+        function restartGame() {
+            document.getElementById('result-screen').classList.add('hidden');
+            startGame();
+        }
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a1095f4ba267a428',t:'MTc4MjI3OTM1OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+</body></html>
