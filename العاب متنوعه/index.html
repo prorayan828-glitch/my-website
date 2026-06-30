@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>🎮 ألعاب الأطفال</title>
+
+<link rel="stylesheet" href="style.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+<!-- الصفحة الرئيسية -->
+
+<div id="home">
+
+<h1>🎮 ألعاب الأطفال</h1>
+
+<p>اختر اللعبة التي تريد لعبها</p>
+
+<div class="games">
+
+<button onclick="openGame('balloon')">
+🎈
+<br>
+فرقعة البالونات
+</button>
+
+<button onclick="openGame('fish')">
+🐟
+<br>
+صيد السمك
+</button>
+
+<button onclick="openGame('memory')">
+🧩
+<br>
+لعبة الذاكرة
+</button>
+
+<button onclick="openGame('box')">
+🎁
+<br>
+افتح الصندوق
+</button>
+
+<button onclick="openGame('color')">
+🎨
+<br>
+لون بسرعة
+</button>
+
+<button onclick="openGame('cup')">
+👀
+<br>
+وين اختفى؟
+</button>
+
+</div>
+
+<div class="scoreBox">
+
+⭐ مجموع النقاط
+
+<h2 id="totalScore">0</h2>
+
+</div>
+
+</div>
+
+<!-- ================================= -->
+
+<!-- لعبة البالونات -->
+
+<div id="balloonGame" class="game">
+
+<button class="back" onclick="goHome()">
+🏠 الرئيسية
+</button>
+
+<h2>🎈 فرقعة البالونات</h2>
+
+<div id="balloonArea"></div>
+
+<div class="info">
+
+<span>
+
+النقاط :
+
+<b id="balloonScore">0</b>
+
+</span>
+
+<span>
+
+الوقت :
+
+<b id="balloonTime">30</b>
+
+</span>
+
+</div>
+
+</div>
+
+<!-- ================================= -->
+
+<!-- لعبة السمك -->
+
+<div id="fishGame" class="game">
+
+<button class="back" onclick="goHome()">
+🏠 الرئيسية
+</button>
+
+<h2>🐟 صيد السمك</h2>
+
+<div id="fishArea"></div>
+
+<div class="info">
+
+<span>
+
+النقاط :
+
+<b id="fishScore">0</b>
+
+</span>
+
+<span>
+
+الوقت :
+
+<b id="fishTime">30</b>
+
+</span>
+
+</div>
+
+</div>
+
+<!-- ================================= -->
+
+<!-- لعبة الذاكرة -->
+
+<div id="memoryGame" class="game">
+
+<button class="back" onclick="goHome()">
+🏠 الرئيسية
+</button>
+
+<h2>🧩 لعبة الذاكرة</h2>
+
+<div id="memoryBoard"></div>
+
+</div>
+
+<!-- ================================= -->
+
+<!-- لعبة الصندوق -->
+
+<div id="boxGame" class="game">
+
+<button class="back" onclick="goHome()">
+🏠 الرئيسية
+</button>
+
+<h2>🎁 افتح الصندوق</h2>
+
+<div id="boxArea"></div>
+
+<div id="questionBox"></div>
+
+</div>
+
+<!-- ================================= -->
+
+<!-- لعبة لون بسرعة -->
+
+<div id="colorGame" class="game">
+
+<button class="back" onclick="goHome()">
+🏠 الرئيسية
+</button>
+
+<h2>🎨 لون بسرعة</h2>
+
+<div id="colorArea">
+
+<h3 id="colorWord"></h3>
+
+<div id="colorButtons"></div>
+
+<div class="info">
+
+<span>
+
+⭐ النقاط :
+
+<b id="colorScore">0</b>
+
+</span>
+
+<span>
+
+⏱️ الوقت :
+
+<b id="colorTime">20</b>
+
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ================================= -->
+
+<!-- لعبة وين اختفى -->
+
+<div id="cupGame" class="game">
+
+<button class="back" onclick="goHome()">
+🏠 الرئيسية
+</button>
+
+<h2>👀 وين اختفى؟</h2>
+
+<div id="cupArea">
+
+<div id="cups"></div>
+
+<p id="cupMessage"></p>
+
+</div>
+
+</div>
+
+<script src="script.js"></script>
+
+<script src="balloon.js"></script>
+
+<script src="fish.js"></script>
+
+<script src="memory.js"></script>
+
+<script src="box.js"></script>
+
+<script src="color.js"></script>
+
+<script src="cup.js"></script>
+</body>
+
+</html>
