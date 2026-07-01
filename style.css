@@ -15,7 +15,8 @@ background:linear-gradient(135deg,#87CEEB,#B8E6FF);
 
 min-height:100vh;
 
-overflow:hidden;
+overflow-y:auto;
+overflow-x:hidden;
 
 }
 
